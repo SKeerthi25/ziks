@@ -158,11 +158,11 @@ const Home = () => (
       <div style={styles.heroOverlay}></div>
       <div className="container" style={styles.heroContent}>
         <div style={{color: 'var(--color-secondary)', fontWeight: '600', letterSpacing: '2px', marginBottom: '1rem', fontSize: '1.2rem', textTransform: 'uppercase'}}>ZIKS LTD</div>
-        <h1 style={styles.heroTitle}>Building Excellence,<br/>Delivering Trust</h1>
+        <h1 style={styles.heroTitle}>Building<br/>Excellence,<br/>Delivering Trust</h1>
         <p style={styles.heroSubtitle}>Premium domestic construction services tailored to transform your vision into reality.</p>
-        <div style={{display: 'flex', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap'}}>
-          <Link to="/quote" className="btn-secondary">Request a Quote</Link>
-          <Link to="/services" className="btn-primary" style={{backgroundColor: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)'}}>Our Services</Link>
+        <div className="hero-buttons" style={{display: 'flex', gap: '1rem', marginTop: '2rem'}}>
+          <Link to="/quote" className="btn-secondary">Request a<br/>Quote</Link>
+          <Link to="/services" className="btn-primary" style={{backgroundColor: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)'}}>Our<br/>Services</Link>
         </div>
       </div>
     </section>
