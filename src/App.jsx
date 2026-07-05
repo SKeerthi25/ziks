@@ -8,9 +8,21 @@ import projImg1 from './assets/image.png';
 import projImg2 from './assets/image copy.png';
 import projImg3 from './assets/image copy 2.png';
 import projImg4 from './assets/image copy 3.png';
-import blogImg1 from './assets/image copy 4.png';
-import blogImg2 from './assets/image copy 5.png';
-import blogImg3 from './assets/image copy 6.png';
+import projImg5 from './assets/image copy 4.png';
+import projImg6 from './assets/image copy 5.png';
+import projImg7 from './assets/image copy 6.png';
+import projImg8 from './assets/image copy 7.png';
+import projImg9 from './assets/image copy 8.png';
+import projImg10 from './assets/image copy 9.png';
+import projImg11 from './assets/image copy 10.png';
+import projImg12 from './assets/image copy 11.png';
+import projImg13 from './assets/image copy 12.png';
+import projImg14 from './assets/image copy 13.png';
+import projImg15 from './assets/image copy 14.png';
+
+const blogImg1 = projImg5;
+const blogImg2 = projImg6;
+const blogImg3 = projImg7;
 
 // --- Components ---
 
@@ -264,12 +276,23 @@ const Projects = () => (
       <h1 style={{fontSize: '3rem', color: 'var(--color-primary)'}}>Featured Projects</h1>
       <p style={{color: 'var(--color-gray)', maxWidth: '800px', margin: '0 auto'}}>Browse through our portfolio of successful transformations.</p>
     </div>
-    <div className="grid grid-cols-2 gap-8">
+    <div className="grid grid-cols-3 gap-8">
       {[
         { title: 'Modern Kitchen Renovation', img: projImg1, loc: 'Surrey' },
         { title: 'Double Story Extension', img: projImg2, loc: 'London' },
         { title: 'Luxury Bathroom Installation', img: projImg3, loc: 'Kent' },
-        { title: 'Landscaped Garden & Patio', img: projImg4, loc: 'Essex' }
+        { title: 'Landscaped Garden & Patio', img: projImg4, loc: 'Essex' },
+        { title: 'Open Plan Living Area', img: projImg5, loc: 'Brighton' },
+        { title: 'Bespoke Loft Conversion', img: projImg6, loc: 'London' },
+        { title: 'Exterior Facade Restoration', img: projImg7, loc: 'Oxford' },
+        { title: 'Contemporary Master Bedroom', img: projImg8, loc: 'Reading' },
+        { title: 'Custom Joinery Staircase', img: projImg9, loc: 'Cambridge' },
+        { title: 'Eco-Friendly Home Build', img: projImg10, loc: 'Bristol' },
+        { title: 'Victorian Terrace Update', img: projImg11, loc: 'London' },
+        { title: 'Minimalist Dining Space', img: projImg12, loc: 'Bath' },
+        { title: 'Smart Home Integration', img: projImg13, loc: 'Manchester' },
+        { title: 'Heritage Roof Replacement', img: projImg14, loc: 'York' },
+        { title: 'Outdoor Entertainment Deck', img: projImg15, loc: 'Cornwall' }
       ].map((proj, idx) => (
         <div key={idx} className="card" style={{padding: 0, overflow: 'hidden'}}>
           <img src={proj.img} alt={proj.title} style={{width: '100%', height: '300px', objectFit: 'cover'}} />
