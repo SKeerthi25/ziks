@@ -158,6 +158,13 @@ button, .btn {
     width: 40px;
     height: 40px;
   }
+
+  /* Typography scaling */
+  h1 { font-size: 2.2rem !important; }
+  h2 { font-size: 1.8rem !important; }
+  
+  /* Text wrapping for emails */
+  .break-word { word-break: break-all; }
 }
 
 /* Cards */

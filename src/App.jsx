@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Phone, Mail, MapPin, ChevronRight, Menu, X, Moon, Sun, MessageCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import './index.css';
 
 import projImg1 from './assets/image.png';
@@ -122,7 +123,7 @@ const Footer = () => {
           <h4 style={styles.footerHeading}>Contact</h4>
           <ul style={styles.footerList}>
             <li style={{display: 'flex', gap: '10px', alignItems: 'center'}}><Phone size={16} className="text-secondary"/> +44 7796 729288</li>
-            <li style={{display: 'flex', gap: '10px', alignItems: 'center'}}><Mail size={16} className="text-secondary"/> maheshuk1947@gmail.com</li>
+            <li style={{display: 'flex', gap: '10px', alignItems: 'center'}}><Mail size={16} className="text-secondary"/> <span className="break-word">maheshuk1947@gmail.com</span></li>
             <li style={{display: 'flex', gap: '10px', alignItems: 'center'}}><MapPin size={16} className="text-secondary"/> London, UK</li>
           </ul>
         </div>
@@ -159,7 +160,7 @@ const Home = () => (
         <div style={{color: 'var(--color-secondary)', fontWeight: '600', letterSpacing: '2px', marginBottom: '1rem', fontSize: '1.2rem', textTransform: 'uppercase'}}>ZIKS LTD</div>
         <h1 style={styles.heroTitle}>Building Excellence,<br/>Delivering Trust</h1>
         <p style={styles.heroSubtitle}>Premium domestic construction services tailored to transform your vision into reality.</p>
-        <div style={{display: 'flex', gap: '1rem', marginTop: '2rem'}}>
+        <div style={{display: 'flex', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap'}}>
           <Link to="/quote" className="btn-secondary">Request a Quote</Link>
           <Link to="/services" className="btn-primary" style={{backgroundColor: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)'}}>Our Services</Link>
         </div>
@@ -242,7 +243,10 @@ const Services = () => (
         { title: 'Home Renovations', desc: 'Complete property modernizations and refurbishments.' },
         { title: 'Kitchen & Bathroom', desc: 'Bespoke design and installation of modern kitchens and bathrooms.' },
         { title: 'Roofing & Brickwork', desc: 'Expert roofing repairs and structurally sound brickwork.' },
-        { title: 'Landscaping & Driveways', desc: 'Enhance your curb appeal with our exterior services.' }
+        { title: 'Landscaping & Driveways', desc: 'Enhance your curb appeal with our exterior services.' },
+        { title: 'Plumbing & Heating', desc: 'Professional plumbing, boiler installations, and heating solutions.' },
+        { title: 'Electrical Installations', desc: 'Certified electrical work, from full rewiring to smart home setups.' },
+        { title: 'Carpentry & Joinery', desc: 'Custom woodwork, fitted wardrobes, and bespoke staircase design.' }
       ].map((service, idx) => (
         <div key={idx} className="card">
           <h3 style={{fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--color-dark)'}}>{service.title}</h3>
@@ -279,76 +283,118 @@ const Projects = () => (
   </div>
 );
 
-const Contact = () => (
-  <div className="section-padding container">
-    <div className="text-center mb-8">
-      <h1 style={{fontSize: '3rem', color: 'var(--color-primary)'}}>Contact Us</h1>
-      <p style={{color: 'var(--color-gray)', maxWidth: '800px', margin: '0 auto'}}>Get in touch with our team today to discuss your next project.</p>
-    </div>
-    <div className="grid grid-cols-2 gap-8">
-      <div className="card glass">
-        <h2 style={{marginBottom: '1.5rem'}}>Contact Details</h2>
-        <ul style={{listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem'}}>
-          <li style={{display: 'flex', alignItems: 'center', gap: '15px'}}><Phone className="text-primary" size={24}/> <span style={{fontSize: '1.2rem'}}>+44 7796 729288</span></li>
-          <li style={{display: 'flex', alignItems: 'center', gap: '15px'}}><Mail className="text-primary" size={24}/> <span style={{fontSize: '1.2rem'}}>maheshuk1947@gmail.com</span></li>
-          <li style={{display: 'flex', alignItems: 'center', gap: '15px'}}><MapPin className="text-primary" size={24}/> <span style={{fontSize: '1.2rem'}}>London, United Kingdom</span></li>
-        </ul>
-        <div style={{width: '100%', height: '250px', borderRadius: 'var(--radius-md)', overflow: 'hidden', boxShadow: 'var(--shadow-sm)'}}>
-          <iframe 
-            title="ZIKS LTD Location Map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158858.47340002653!2d-0.24168120600539224!3d51.5285582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sus!4v1715000000000!5m2!1sen!2sus" 
-            width="100%" 
-            height="100%" 
-            style={{border: 0}} 
-            allowFullScreen="" 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
+const Contact = () => {
+  const form = useRef();
+  const [status, setStatus] = useState('');
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setStatus('sending');
+    emailjs.sendForm('service_3t9o4l2', 'template_tln3bcc', form.current, 'ViBB7wVDIPTZtKq0j')
+      .then(() => {
+          setStatus('success');
+          form.current.reset();
+      }, () => {
+          setStatus('error');
+      });
+  };
+
+  return (
+    <div className="section-padding container">
+      <div className="text-center mb-8">
+        <h1 style={{fontSize: '3rem', color: 'var(--color-primary)'}}>Contact Us</h1>
+        <p style={{color: 'var(--color-gray)', maxWidth: '800px', margin: '0 auto'}}>Get in touch with our team today to discuss your next project.</p>
+      </div>
+      <div className="grid grid-cols-2 gap-8">
+        <div className="card glass">
+          <h2 style={{marginBottom: '1.5rem'}}>Contact Details</h2>
+          <ul style={{listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem'}}>
+            <li style={{display: 'flex', alignItems: 'center', gap: '15px'}}><Phone className="text-primary" size={24}/> <span style={{fontSize: '1.2rem'}}>+44 7796 729288</span></li>
+            <li style={{display: 'flex', alignItems: 'center', gap: '15px'}}><Mail className="text-primary" size={24}/> <span className="break-word" style={{fontSize: '1.2rem'}}>maheshuk1947@gmail.com</span></li>
+            <li style={{display: 'flex', alignItems: 'center', gap: '15px'}}><MapPin className="text-primary" size={24}/> <span style={{fontSize: '1.2rem'}}>London, United Kingdom</span></li>
+          </ul>
+          <div style={{width: '100%', height: '250px', borderRadius: 'var(--radius-md)', overflow: 'hidden', boxShadow: 'var(--shadow-sm)'}}>
+            <iframe 
+              title="ZIKS LTD Location Map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158858.47340002653!2d-0.24168120600539224!3d51.5285582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sus!4v1715000000000!5m2!1sen!2sus" 
+              width="100%" 
+              height="100%" 
+              style={{border: 0}} 
+              allowFullScreen="" 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+        <div className="card">
+          <h2 style={{marginBottom: '1.5rem'}}>Quick Enquiry</h2>
+          <form ref={form} onSubmit={sendEmail} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+            <input type="text" name="user_name" placeholder="Your Name" style={styles.input} required />
+            <input type="email" name="user_email" placeholder="Your Email" style={styles.input} required />
+            <textarea name="message" placeholder="Message" rows="5" style={styles.input} required></textarea>
+            <button type="submit" className="btn-primary" style={{marginTop: '1rem'}} disabled={status === 'sending'}>
+              {status === 'sending' ? 'Sending...' : 'Send Message'}
+            </button>
+            {status === 'success' && <p style={{color: 'green', marginTop: '10px'}}>Message sent successfully!</p>}
+            {status === 'error' && <p style={{color: 'red', marginTop: '10px'}}>Failed to send message. Please try again.</p>}
+          </form>
         </div>
       </div>
-      <div className="card">
-        <h2 style={{marginBottom: '1.5rem'}}>Quick Enquiry</h2>
-        <form style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-          <input type="text" placeholder="Your Name" style={styles.input} />
-          <input type="email" placeholder="Your Email" style={styles.input} />
-          <textarea placeholder="Message" rows="5" style={styles.input}></textarea>
-          <button type="button" className="btn-primary" style={{marginTop: '1rem'}}>Send Message</button>
+    </div>
+  );
+};
+
+const Quote = () => {
+  const form = useRef();
+  const [status, setStatus] = useState('');
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setStatus('sending');
+    emailjs.sendForm('service_3t9o4l2', 'template_tln3bcc', form.current, 'ViBB7wVDIPTZtKq0j')
+      .then(() => {
+          setStatus('success');
+          form.current.reset();
+      }, () => {
+          setStatus('error');
+      });
+  };
+
+  return (
+    <div className="section-padding container">
+      <div className="text-center mb-8">
+        <h1 style={{fontSize: '3rem', color: 'var(--color-primary)'}}>Request a Quote</h1>
+        <p style={{color: 'var(--color-gray)', maxWidth: '800px', margin: '0 auto'}}>Provide details about your project and we'll get back to you with a comprehensive estimate.</p>
+      </div>
+      <div className="card" style={{maxWidth: '800px', margin: '0 auto'}}>
+        <form ref={form} onSubmit={sendEmail} style={{display: 'grid', gap: '1.5rem'}}>
+          <div className="grid grid-cols-2 gap-4">
+            <input type="text" name="first_name" placeholder="First Name" style={styles.input} required />
+            <input type="text" name="last_name" placeholder="Last Name" style={styles.input} required />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <input type="email" name="user_email" placeholder="Email Address" style={styles.input} required />
+            <input type="tel" name="phone" placeholder="Phone Number" style={styles.input} />
+          </div>
+          <select name="service" style={styles.input} required>
+            <option value="">Select Service Required...</option>
+            <option value="House Extension">House Extension</option>
+            <option value="Loft Conversion">Loft Conversion</option>
+            <option value="Renovation">Renovation</option>
+            <option value="Kitchen/Bathroom">Kitchen/Bathroom</option>
+            <option value="Other">Other</option>
+          </select>
+          <textarea name="message" placeholder="Project Description (Please be as detailed as possible)" rows="6" style={styles.input} required></textarea>
+          <button type="submit" className="btn-secondary" style={{width: '100%', padding: '15px', fontSize: '1.1rem'}} disabled={status === 'sending'}>
+            {status === 'sending' ? 'Submitting...' : 'Submit Quote Request'}
+          </button>
+          {status === 'success' && <p style={{color: 'green', textAlign: 'center'}}>Quote request sent successfully!</p>}
+          {status === 'error' && <p style={{color: 'red', textAlign: 'center'}}>Failed to send request. Please try again.</p>}
         </form>
       </div>
     </div>
-  </div>
-);
-
-const Quote = () => (
-  <div className="section-padding container">
-    <div className="text-center mb-8">
-      <h1 style={{fontSize: '3rem', color: 'var(--color-primary)'}}>Request a Quote</h1>
-      <p style={{color: 'var(--color-gray)', maxWidth: '800px', margin: '0 auto'}}>Provide details about your project and we'll get back to you with a comprehensive estimate.</p>
-    </div>
-    <div className="card" style={{maxWidth: '800px', margin: '0 auto'}}>
-      <form style={{display: 'grid', gap: '1.5rem'}}>
-        <div className="grid grid-cols-2 gap-4">
-          <input type="text" placeholder="First Name" style={styles.input} />
-          <input type="text" placeholder="Last Name" style={styles.input} />
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <input type="email" placeholder="Email Address" style={styles.input} />
-          <input type="tel" placeholder="Phone Number" style={styles.input} />
-        </div>
-        <select style={styles.input}>
-          <option>Select Service Required...</option>
-          <option>House Extension</option>
-          <option>Loft Conversion</option>
-          <option>Renovation</option>
-          <option>Kitchen/Bathroom</option>
-          <option>Other</option>
-        </select>
-        <textarea placeholder="Project Description (Please be as detailed as possible)" rows="6" style={styles.input}></textarea>
-        <button type="button" className="btn-secondary" style={{width: '100%', padding: '15px', fontSize: '1.1rem'}}>Submit Quote Request</button>
-      </form>
-    </div>
-  </div>
-);
+  );
+};
 
 const Gallery = () => (
   <div className="section-padding container">
@@ -621,7 +667,7 @@ const styles = {
     color: '#fff'
   },
   heroTitle: {
-    fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+    fontSize: 'clamp(2.2rem, 8vw, 4.5rem)',
     marginBottom: '1.5rem',
     color: '#fff'
   },
